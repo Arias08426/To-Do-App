@@ -19,7 +19,11 @@ jobs:
           MYSQL_DATABASE: todo_app_test
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     
     steps:
     - name: Checkout
@@ -43,6 +47,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest-cov flake8
+    
+    - name: Wait for MySQL
+      run: |
+        sudo apt-get install -y mysql-client
+        for i in {1..30}; do
+          mysql -h 127.0.0.1 -u root -proot -e "SELECT 1" && break
+          echo "Waiting for MySQL..."
+          sleep 2
+        done
     
     - name: Flake8
       run: |
