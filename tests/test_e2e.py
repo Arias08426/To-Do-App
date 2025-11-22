@@ -1,11 +1,9 @@
 """
 Prueba End-to-End (E2E) - Flujo completo de la aplicación
 """
-import sys
-sys.path.insert(0, '..')
-
 import pytest
 import json
+from sqlalchemy import delete
 from app import app, SessionLocal, Base, engine
 from models.User import User
 from models.Task import Task
@@ -20,8 +18,8 @@ def client():
     
     # Limpiar
     db = SessionLocal()
-    db.query(Task).delete()
-    db.query(User).delete()
+    db.execute(delete(Task))
+    db.execute(delete(User))
     db.commit()
     db.close()
 

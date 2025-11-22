@@ -1,11 +1,9 @@
 """
 Pruebas de Integración - Controllers
 """
-import sys
-sys.path.insert(0, '..')
-
 import pytest
 import json
+from sqlalchemy import select, delete
 from app import app, SessionLocal, Base, engine
 from models.User import User
 from models.Task import Task
@@ -25,8 +23,8 @@ def db():
     
     # Limpiar ANTES de cada test
     try:
-        db.query(Task).delete()
-        db.query(User).delete()
+        db.execute(delete(Task))
+        db.execute(delete(User))
         db.commit()
     except:
         db.rollback()
@@ -35,8 +33,8 @@ def db():
     
     # Limpiar DESPUÉS de cada test
     try:
-        db.query(Task).delete()
-        db.query(User).delete()
+        db.execute(delete(Task))
+        db.execute(delete(User))
         db.commit()
     except:
         db.rollback()
