@@ -1,45 +1,9 @@
 """
 Pruebas de Integración - Controllers
 """
-import pytest
 import json
-from sqlalchemy import select, delete
-from app import app, SessionLocal, Base, engine
 from models.User import User
 from models.Task import Task
-
-@pytest.fixture
-def client():
-    """Cliente de prueba de Flask"""
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
-
-@pytest.fixture
-def db():
-    """Base de datos de prueba"""
-    Base.metadata.create_all(engine)
-    db = SessionLocal()
-    
-    # Limpiar ANTES de cada test
-    try:
-        db.execute(delete(Task))
-        db.execute(delete(User))
-        db.commit()
-    except:
-        db.rollback()
-    
-    yield db
-    
-    # Limpiar DESPUÉS de cada test
-    try:
-        db.execute(delete(Task))
-        db.execute(delete(User))
-        db.commit()
-    except:
-        db.rollback()
-    finally:
-        db.close()
 
 
 class TestUserController:

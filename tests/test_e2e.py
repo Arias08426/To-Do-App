@@ -1,27 +1,7 @@
 """
 Prueba End-to-End (E2E) - Flujo completo de la aplicación
 """
-import pytest
 import json
-from sqlalchemy import delete
-from app import app, SessionLocal, Base, engine
-from models.User import User
-from models.Task import Task
-
-@pytest.fixture
-def client():
-    """Cliente de prueba"""
-    app.config['TESTING'] = True
-    Base.metadata.create_all(engine)
-    with app.test_client() as client:
-        yield client
-    
-    # Limpiar
-    db = SessionLocal()
-    db.execute(delete(Task))
-    db.execute(delete(User))
-    db.commit()
-    db.close()
 
 
 class TestE2EWorkflow:
