@@ -2,20 +2,20 @@
 
 Proyecto de gestión de tareas con Flask y MySQL.
 
-## Estructura del proyecto
+## Estructura
 
 ```
 models/          # modelos de base de datos
 services/        # lógica de negocio
 controllers/     # endpoints de la API
-tests/           # tests
+tests/           # tests unitarios, integración y E2E
 ```
 
 ## Stack
 
-- Flask
-- SQLAlchemy
-- MySQL
+- Flask 3.0.0
+- SQLAlchemy 2.0.23
+- MySQL 8.0
 - pytest
 
 ## Setup
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 python crear_db.py
 ```
 
-## Correr el servidor
+## Ejecutar
 
 ```bash
 python app.py
@@ -52,16 +52,18 @@ La API corre en `http://localhost:5000`
 ## Tests
 
 ```bash
-# todos los tests
 pytest tests/ -v
 
 # tests específicos
 pytest tests/test_unitarias.py -v
 pytest tests/test_integracion.py -v
 pytest tests/test_e2e.py -v
+
+# análisis de seguridad
+bandit -r models/ services/ controllers/ app.py
 ```
 
- Base de Datos
+## Base de Datos
 
 **users:** id, name, email (unique)
 **tasks:** id, title, description, is_completed, user_id (FK con CASCADE)
