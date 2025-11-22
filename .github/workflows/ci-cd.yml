@@ -103,6 +103,13 @@ jobs:
       run: |
         pytest tests/test_e2e.py -v
     
+    - name: All tests passed
+      run: |
+        echo "================================"
+        echo "           OK"
+        echo "================================"
+        echo "All tests and checks passed!"
+    
     - name: Coverage
       uses: codecov/codecov-action@v3
       with:
